@@ -1,14 +1,30 @@
 import { Button } from "@heroui/button";
 
-export default function Home() {
+import * as actions from "@/actions";
+import { auth } from "@/auth";
+import Profile from "@/components/profile";
+
+export default async function Home() {
+  const session = await auth();
   return (
-    <div className="flex flex-wrap gap-4 items-center">
-      <Button color="default">Default</Button>
-      <Button color="primary">Primary</Button>
-      <Button color="secondary">Secondary</Button>
-      <Button color="success">Success</Button>
-      <Button color="warning">Warning</Button>
-      <Button color="danger">Danger</Button>
+    <div>
+      <form action={actions.signIn}>
+        <Button type="submit" color="primary">
+          Sign In
+        </Button>
+      </form>
+      <form action={actions.signOut}>
+        <Button type="submit" color="secondary">
+          Sign Out
+        </Button>
+      </form>
+
+      {session?.user ? (
+        <div>{JSON.stringify(session.user)}</div>
+      ) : (
+        <div>Signed Out</div>
+      )}
+      <Profile />
     </div>
   );
 }
