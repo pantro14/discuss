@@ -1,9 +1,10 @@
 import Link from "next/link";
+import { Suspense } from "react";
 
 import CommentCreateForm from "@/components/comments/comment-create-form";
 import CommentList from "@/components/comments/comment-list";
 import PostShow from "@/components/posts/post-show";
-import { fetchCommentByPostId } from "@/db/queries/comments";
+import PostShowSkeleton from "@/components/posts/post-show-skeleton";
 import paths from "@/paths";
 
 interface PostShowPageProps {
@@ -21,9 +22,11 @@ export default async function PostShowPage({ params }: PostShowPageProps) {
       <Link className="underline decoration-solid" href={paths.topicShow(slug)}>
         {"< "}Back to {slug}
       </Link>
-      <PostShow postId={postId} />
+      <Suspense fallback={<PostShowSkeleton />}>
+        <PostShow postId={postId} />
+      </Suspense>
       <CommentCreateForm postId={postId} startOpen />
-      <CommentList fetchComments={() => fetchCommentByPostId(postId)} />
+      <CommentList postId={postId} />
     </div>
   );
 }

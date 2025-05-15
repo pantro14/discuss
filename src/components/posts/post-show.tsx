@@ -7,6 +7,8 @@ interface PostShowProps {
 }
 
 export default async function PostShow({ postId }: PostShowProps) {
+  await new Promise((resolve) => setTimeout(resolve, 3_000));
+
   const post = await prisma.post.findFirst({
     where: { id: postId },
   });
