@@ -1,10 +1,12 @@
 "use client";
 
-import { useActionState } from "react";
-import { useEffect, useRef, useState } from "react";
-import { Textarea, Button } from "@nextui-org/react";
-import FormButton from "@/components/common/form-button";
+import { Alert } from "@heroui/alert";
+import { Button } from "@heroui/button";
+import { Textarea } from "@heroui/input";
+import { useActionState, useEffect, useRef, useState } from "react";
+
 import * as actions from "@/actions";
+import FormButton from "@/components/common/form-button";
 
 interface CommentCreateFormProps {
   postId: string;
@@ -45,11 +47,9 @@ export default function CommentCreateForm({
           errorMessage={formState.errors.content?.join(", ")}
         />
 
-        {formState.errors._form ? (
-          <div className="p-2 bg-red-200 border rounded border-red-400">
-            {formState.errors._form?.join(", ")}
-          </div>
-        ) : null}
+        {formState.errors._form && (
+          <Alert color="danger" title={formState.errors._form.join(", ")} />
+        )}
 
         <FormButton isLoading={isPending}>Create Comment</FormButton>
       </div>
@@ -58,7 +58,7 @@ export default function CommentCreateForm({
 
   return (
     <div>
-      <Button size="sm" variant="light" onClick={() => setOpen(!open)}>
+      <Button size="sm" variant="light" onPress={() => setOpen(!open)}>
         Reply
       </Button>
       {open && form}

@@ -1,5 +1,9 @@
 import Link from "next/link";
 
+import CommentCreateForm from "@/components/comments/comment-create-form";
+import CommentList from "@/components/comments/comment-list";
+import PostShow from "@/components/posts/post-show";
+import { fetchCommentByPostId } from "@/db/queries/comments";
 import paths from "@/paths";
 
 interface PostShowPageProps {
@@ -17,9 +21,9 @@ export default async function PostShowPage({ params }: PostShowPageProps) {
       <Link className="underline decoration-solid" href={paths.topicShow(slug)}>
         {"< "}Back to {slug}
       </Link>
-      {/* <PostShow /> */}
-      {/* <CommentCreateForm postId={postId} startOpen /> */}
-      {/* <CommentList comments={comments} /> */}
+      <PostShow postId={postId} />
+      <CommentCreateForm postId={postId} startOpen />
+      <CommentList fetchComments={() => fetchCommentByPostId(postId)} />
     </div>
   );
 }
